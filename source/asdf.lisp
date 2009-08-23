@@ -85,6 +85,8 @@
 ;;;;;;
 ;;; DWIM system
 
+(defvar *muffle-optimization-warnings* t)
+
 (defclass hu.dwim.source-file (cl-source-file-with-readtable)
   ())
 
@@ -137,7 +139,10 @@
 
 (defgeneric call-in-system-environment (operation system function)
   (:method ((op operation) (system system) function)
-    (funcall function)))
+    (if *muffle-optimization-warnings*
+        (handler-bind (#+sbcl (sb-ext:compiler-note #'muffle-warning))
+          (funcall function))
+        (funcall function))))
 
 (defmethod perform ((op test-op) (system hu.dwim.system))
   (let ((test-system (find-system (system-test-system-name system) nil)))
