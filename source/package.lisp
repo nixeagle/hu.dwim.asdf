@@ -10,8 +10,11 @@
   (:use :asdf
         :common-lisp)
 
-  (:export #:system-relative-pathname
-           #:system-pathname
+  (:export #:system-pathname
+           #:system-relative-pathname
+           #:system-package-name
+           #:system-test-system-name
+           #:system-test-result
            #:*load-as-production?*
            #:debug-only
            #:debug-only*
