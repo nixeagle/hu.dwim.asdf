@@ -140,7 +140,9 @@
 (defgeneric call-in-system-environment (operation system function)
   (:method ((op operation) (system system) function)
     (if *muffle-optimization-warnings*
-        (handler-bind (#+sbcl (sb-ext:compiler-note #'muffle-warning))
+        (handler-bind (#+sbcl(sb-ext:compiler-note #'muffle-warning)
+                       ;; NOTE: muffle these warnings to reduce compilation noise, tests already cover interesting cases
+                       #+sbcl(sb-kernel:undefined-alien-style-warning #'muffle-warning))
           (funcall function))
         (funcall function))))
 
