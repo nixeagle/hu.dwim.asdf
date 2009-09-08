@@ -10,7 +10,7 @@
 ;;; Production support
 
 (defvar *load-as-production?* nil
-  "When T, load the lisp files so that it will be used in a production system. This means that debug-only blocks are dropped and log levels and various variables are initialized accordingly.")
+  "When T, load the lisp files so that it will be used in a production system. This means that debug-only blocks are dropped, some hot functions are optimized, compile time and runtime log levels and various other variables are initialized accordingly.")
 
 (defmacro debug-only (&body body)
   (if *load-as-production?*
@@ -40,6 +40,3 @@
   (if *load-as-production?*
       '(optimize (speed 3) (debug 0) (safety 0))
       '(optimize (debug 3) (safety 3))))
-
-(defun system-pathname (name)
-  (component-pathname (find-system name)))

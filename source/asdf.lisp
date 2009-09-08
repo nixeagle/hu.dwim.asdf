@@ -4,7 +4,7 @@
 ;;;
 ;;; See LICENCE for details.
 
-(in-package :asdf)
+(in-package :hu.dwim.asdf)
 
 ;;;;;;
 ;;; Readtable support
@@ -24,10 +24,10 @@
 (defclass system-connection-with-readtable (system-connection readtable-function-mixin)
   ())
 
-(defmethod module-default-component-class ((class system-with-readtable))
+(defmethod asdf::module-default-component-class ((class system-with-readtable))
   'cl-source-file-with-readtable)
 
-(defmethod module-default-component-class ((class system-connection-with-readtable))
+(defmethod asdf::module-default-component-class ((class system-connection-with-readtable))
   'cl-source-file-with-readtable)
 
 (defun maybe-funcall-setup-readtable-function (system &optional component)
@@ -125,10 +125,10 @@
 (defmethod operation-done-p ((op compile-op) (component static-file))
   t)
 
-(defmethod module-default-component-class ((class hu.dwim.system))
+(defmethod asdf::module-default-component-class ((class hu.dwim.system))
   'hu.dwim.source-file)
 
-(defmethod module-default-component-class ((class hu.dwim.system-connection))
+(defmethod asdf::module-default-component-class ((class hu.dwim.system-connection))
   'hu.dwim.source-file)
 
 (defmethod perform :around ((op operation) (component hu.dwim.source-file))
@@ -191,6 +191,10 @@
       (when *development-package*
         (setf *package* *development-package*)))))
 
-(export '(develop-op develop-system))
+;;;;;;
+;;; Util
+
+(defun system-pathname (name)
+  (component-pathname (find-system name)))
 
 (change-class (find-system :hu.dwim.asdf) 'hu.dwim.system)

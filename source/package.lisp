@@ -4,17 +4,23 @@
 ;;;
 ;;; See LICENCE for details.
 
-(in-package :asdf)
+(in-package :common-lisp-user)
 
 (defpackage :hu.dwim.asdf
   (:use :asdf
         :common-lisp)
 
-  (:export #:system-pathname
+  (:export #:hu.dwim.system
+           #:hu.dwim.test-system
+           #:hu.dwim.documentation-system
+           #:system-pathname
            #:system-relative-pathname
            #:system-package-name
            #:system-test-system-name
+           #:system-documentation-system-name
            #:system-test-result
+           #:develop-op
+           #:develop-system
            #:*load-as-production?*
            #:debug-only
            #:debug-only*
