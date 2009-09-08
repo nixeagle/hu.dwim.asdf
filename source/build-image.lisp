@@ -76,7 +76,7 @@
 (defun build-production-image (system-name)
   (let ((file-name (image-file-name system-name))
         (*load-as-production?* t))
-    (setf *default-toplevel-directory* (merge-pathnames "../fasls/" common-lisp-user::*workspace-directory*))
+    (setf *default-toplevel-directory* (merge-pathnames "../.fasls/" common-lisp-user::*workspace-directory*))
     (load-swank)
     (load-system system-name)
     (save-image file-name
