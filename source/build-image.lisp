@@ -20,7 +20,6 @@
     (cerror "Ignore" "The default external format is ~S, but UTF-8 is strongly advised! Check your $LANG env variable..."
             (sb-impl::default-external-format))))
 
-
 (defun load-swank ()
   (require :swank)
   (unless (find-symbol "SWANK-PROFILE-GET-CALL-GRAPH" (find-package "SWANK-BACKEND"))
@@ -49,7 +48,8 @@
 ;;; Build image
 
 (defun build-development-image (system-name-prefix)
-  (let ((file-name (merge-pathnames (concatenate 'string "hu.dwim.environment/core/" (string-downcase system-name) suffix ".core")
+  (let ((file-name (merge-pathnames (concatenate 'string "hu.dwim.environment/core/"
+                                                 (string-downcase system-name) +development-image-suffix+ ".core")
                                     common-lisp-user::*workspace-directory*))
         (development-systems nil))
     (load-swank)
