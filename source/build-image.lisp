@@ -21,10 +21,6 @@
             (sb-impl::default-external-format))))
 
 
-(defun image-file-name (system-name &optional suffix)
-  (merge-pathnames (concatenate 'string "hu.dwim.environment/core/" (string-downcase system-name) suffix ".core")
-                   common-lisp-user::*workspace-directory*))
-
 (defun load-swank ()
   (require :swank)
   (unless (find-symbol "SWANK-PROFILE-GET-CALL-GRAPH" (find-package "SWANK-BACKEND"))
@@ -53,7 +49,8 @@
 ;;; Build image
 
 (defun build-development-image (system-name-prefix)
-  (let ((file-name (image-file-name system-name-prefix +development-image-suffix+))
+  (let ((file-name (merge-pathnames (concatenate 'string "hu.dwim.environment/core/" (string-downcase system-name) suffix ".core")
+                                    common-lisp-user::*workspace-directory*))
         (development-systems nil))
     (load-swank)
     (find-all-systems-with-prefix system-name-prefix)
@@ -74,12 +71,14 @@
     (save-image file-name)))
 
 (defun build-production-image (system-name)
-  (let ((file-name (image-file-name system-name))
+  (let ((file-name (system-relative-pathname system-name system-name))
         (*load-as-production?* t))
     (setf *default-toplevel-directory* (merge-pathnames "../.fasls/" common-lisp-user::*workspace-directory*))
     (load-swank)
     (load-system system-name)
     (save-image file-name
+                :executable t
+                :save-runtime-options t
                 :toplevel (or (find-symbol "PRODUCTION-IMAGE-TOPLEVEL" (hu.dwim.asdf:system-package-name (find-system system-name)))
                               #+sbcl #'sb-impl::toplevel-init
                               #-sbcl (lambda () (error "No production image toplevel function"))))))
