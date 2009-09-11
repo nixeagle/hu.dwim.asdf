@@ -49,7 +49,7 @@
 
 (defun build-development-image (system-name-prefix)
   (let ((file-name (merge-pathnames (concatenate 'string "hu.dwim.environment/core/"
-                                                 (string-downcase system-name) +development-image-suffix+ ".core")
+                                                 (string-downcase system-name-prefix) +development-image-suffix+ ".core")
                                     common-lisp-user::*workspace-directory*))
         (development-systems nil))
     (load-swank)
