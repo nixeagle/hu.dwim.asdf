@@ -26,4 +26,6 @@
            #:debug-only*
            #:production-only
            #:production-only*
-           #:optimize-declaration))
+           #:optimize-declaration
+           #:with-muffled-boring-compiler-warnings
+           ))
