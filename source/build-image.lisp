@@ -12,6 +12,8 @@
 ;;;;;;
 ;;; Util
 
+(defvar *workspace-directory*)
+
 (defvar +development-image-suffix+ ".development")
 
 (defun ensure-external-format-is-utf-8 ()
@@ -59,7 +61,7 @@
 (defun build-development-image (system-name-prefix)
   (let ((file-name (merge-pathnames (concatenate 'string "hu.dwim.environment/core/"
                                                  (string-downcase system-name-prefix) +development-image-suffix+ ".core")
-                                    common-lisp-user::*workspace-directory*))
+                                    *workspace-directory*))
         (development-systems nil))
     (load-swank)
     (find-all-systems-with-prefix system-name-prefix)
@@ -82,7 +84,6 @@
 (defun build-production-image (system-name)
   (let ((file-name (system-relative-pathname system-name system-name))
         (*load-as-production?* t))
-    (setf *default-toplevel-directory* (merge-pathnames "../.fasls/" common-lisp-user::*workspace-directory*))
     (load-swank)
     (load-system system-name)
     (save-image file-name
