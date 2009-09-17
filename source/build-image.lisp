@@ -96,6 +96,7 @@
 (defun build-image (command-line-arguments)
   (let* ((arguments (rest command-line-arguments))
          (system-name (first arguments)))
-    (if (search +development-image-suffix+ system-name)
-        (build-development-image (subseq system-name 0 (- (length system-name) (length +development-image-suffix+))))
-        (build-production-image system-name))))
+    (with-muffled-boring-compiler-warnings
+      (if (search +development-image-suffix+ system-name)
+          (build-development-image (subseq system-name 0 (- (length system-name) (length +development-image-suffix+))))
+          (build-production-image system-name)))))
