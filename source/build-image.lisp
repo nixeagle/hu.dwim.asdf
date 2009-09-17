@@ -21,13 +21,22 @@
             (sb-impl::default-external-format))))
 
 (defun load-swank ()
-  (require :swank)
-  (unless (find-symbol "SWANK-PROFILE-GET-CALL-GRAPH" (find-package "SWANK-BACKEND"))
-    (load (merge-pathnames "hu.dwim.environment/source/swank-sprof.lisp" common-lisp-user::*workspace-directory*)))
-  (when (ignore-errors
-          (fdefinition (read-from-string "(setf swank:swank-print-right-margin)")))
-    (eval (read-from-string "(setf (swank:swank-print-right-margin) 150
-                                   swank:*globally-redirect-io* t)"))))
+  (let ((*package* (find-package :hu.dwim.asdf)))
+    (format *debug-io* "; Loading swank...~%")
+    (load (system-relative-pathname :swank "swank-loader.lisp"))
+    (format *debug-io* "; Setting up swank...~%")
+    (eval
+     (read-from-string
+      "(progn
+         (setf swank-loader:*fasl-directory*
+               (merge-pathnames (make-pathname :directory `(:relative \"slime\" ,@(list (swank-loader::slime-version-string))))
+                                (first (asdf::output-files-using-mappings \"\" (list (system-relative-pathname :swank \"\")) ()))))
+         (swank-loader:init))"))
+    #+sbcl
+    (unless (find-symbol "SWANK-PROFILE-GET-CALL-GRAPH" (find-package "SWANK-BACKEND"))
+      (format *debug-io* "; Loading up swank-sprof...~%")
+      (load (merge-pathnames "hu.dwim.environment/source/swank-sprof.lisp" *workspace-directory*)))
+    (eval (read-from-string "(setf swank:*globally-redirect-io* t)"))))
 
 (defun save-image (file-name &rest args &key &allow-other-keys)
   (ensure-external-format-is-utf-8)
