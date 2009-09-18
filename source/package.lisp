@@ -28,4 +28,5 @@
            #:production-only*
            #:optimize-declaration
            #:with-muffled-boring-compiler-warnings
+           #:*workspace-directory*
            ))
