@@ -12,8 +12,6 @@
 ;;;;;;
 ;;; Util
 
-(defvar *workspace-directory*)
-
 (defvar +development-image-suffix+ ".development")
 
 (defun ensure-external-format-is-utf-8 ()
@@ -93,8 +91,9 @@
                               #+sbcl #'sb-impl::toplevel-init
                               #-sbcl (lambda () (error "No production image toplevel function"))))))
 
-(defun build-image (command-line-arguments)
-  (let* ((arguments (rest command-line-arguments))
+(defun build-image ()
+  (let* ((command-line-arguments #+sbcl sb-ext::*posix-argv*)
+         (arguments (rest command-line-arguments))
          (system-name (first arguments)))
     (with-muffled-boring-compiler-warnings
       (if (search +development-image-suffix+ system-name)

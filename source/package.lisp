@@ -8,6 +8,7 @@
 
 (defpackage :hu.dwim.asdf
   (:use :asdf
+        :asdf-install
         :common-lisp)
 
   (:export #:hu.dwim.system
@@ -29,4 +30,5 @@
            #:optimize-declaration
            #:with-muffled-boring-compiler-warnings
            #:*workspace-directory*
-           ))
+           #:build-image
+           #:reread-asdf-registry))
