@@ -170,6 +170,9 @@
 (defclass develop-op (operation)
   ())
 
+(defmethod operation-done-p ((operation develop-op) (component component))
+  nil)
+
 (defmethod perform ((operation develop-op) (component component))
   nil)
 
