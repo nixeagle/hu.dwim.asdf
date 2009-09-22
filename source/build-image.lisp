@@ -32,10 +32,6 @@
                (merge-pathnames (make-pathname :directory `(:relative \"slime\" ,@(list (swank-loader::slime-version-string))))
                                 (first (asdf::output-files-using-mappings \"\" (list (system-relative-pathname :swank \"\")) ()))))
          (swank-loader:init))"))
-    #+sbcl
-    (unless (find-symbol "SWANK-PROFILE-GET-CALL-GRAPH" (find-package "SWANK-BACKEND"))
-      (format *debug-io* "; Loading up swank-sprof...~%")
-      (load (merge-pathnames "hu.dwim.environment/source/swank-sprof.lisp" *workspace-directory*)))
     (eval (read-from-string "(setf swank:*globally-redirect-io* t)"))))
 
 (defun save-image (file-name &rest args &key &allow-other-keys)
