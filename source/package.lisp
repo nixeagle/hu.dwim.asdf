@@ -30,5 +30,4 @@
            #:optimize-declaration
            #:with-muffled-boring-compiler-warnings
            #:*workspace-directory*
-           #:build-image
            #:reread-asdf-registry))

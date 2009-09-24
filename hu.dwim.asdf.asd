@@ -11,8 +11,7 @@
   :licence "BSD / Public domain"
   :description "Various ASDF extensions"
   :components ((:module "source"
-                :components ((:file "build-image" :depends-on ("system"))
-                             (:file "package")
+                :components ((:file "package")
                              (:file "production" :depends-on ("workspace"))
                              (:file "system" :depends-on ("production"))
                              (:file "workspace" :depends-on ("package"))))))

@@ -121,7 +121,6 @@
     (setf (system-documentation-system-name system)
           (concatenate 'string (string-downcase (component-name system)) ".documentation"))))
 
-;; TODO: patch for asdf
 (defmethod operation-done-p ((op compile-op) (component static-file))
   t)
 
