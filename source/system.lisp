@@ -121,9 +121,6 @@
     (setf (system-documentation-system-name system)
           (concatenate 'string (string-downcase (component-name system)) ".documentation"))))
 
-(defmethod operation-done-p ((op compile-op) (component static-file))
-  t)
-
 (defmethod asdf::module-default-component-class ((class hu.dwim.system))
   'hu.dwim.source-file)
 
